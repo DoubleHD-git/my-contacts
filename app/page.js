@@ -1,14 +1,12 @@
+import Header from "../components/Header";
+import SearchBar from "../components/SearchBar";
+
 export default function Home() {
   return (
     <main>
-      <h1>My Contacts</h1>
+      <Header />
 
-      <p>Manage your personal contacts</p>
-
-      <input
-        type="text"
-        placeholder="Search contacts..."
-      />
+      <SearchBar />
 
       <br />
       <br />
