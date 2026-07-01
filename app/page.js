@@ -1,5 +1,6 @@
 import Header from "../components/Header";
 import SearchBar from "../components/SearchBar";
+import ContactCard from "../components/ContactCard";
 
 export default function Home() {
   return (
@@ -15,7 +16,7 @@ export default function Home() {
 
       <hr />
 
-      <p>No contacts yet.</p>
+      <ContactCard />
     </main>
   );
 }
