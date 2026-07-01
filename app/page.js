@@ -13,6 +13,7 @@ export default function Home() {
   const [contacts, setContacts] = useState([]);
   const [showForm, setShowForm] = useState(false);
   const [editingContact, setEditingContact] = useState(null);
+  const [searchText, setSearchText] = useState("");
 
   useEffect(() => {
     const savedContacts = localStorage.getItem("contacts");
@@ -30,9 +31,7 @@ export default function Home() {
 
   function addContact(contact) {
     if (editingContact) {
-      setContacts(
-        contacts.map((c) => (c.id === contact.id ? contact : c))
-      );
+      setContacts(contacts.map((c) => (c.id === contact.id ? contact : c)));
       setEditingContact(null);
     } else {
       setContacts([...contacts, contact]);
@@ -55,17 +54,32 @@ export default function Home() {
     setShowForm(true);
   }
 
+  const filteredContacts = contacts.filter((contact) => {
+    const fullName = `${contact.firstName} ${contact.lastName}`.toLowerCase();
+    const phone = contact.phone.toLowerCase();
+    const email = contact.email.toLowerCase();
+    const category = contact.category.toLowerCase();
+    const closeness = contact.closeness.toLowerCase();
+    const search = searchText.toLowerCase();
+
+    return (
+      fullName.includes(search) ||
+      phone.includes(search) ||
+      email.includes(search) ||
+      category.includes(search) ||
+      closeness.includes(search)
+    );
+  });
+
   return (
     <main>
       <Header />
 
-      <SearchBar />
+      <SearchBar searchText={searchText} onSearchChange={setSearchText} />
 
       <br />
 
-      <button onClick={openNewContactForm}>
-        Add Contact
-      </button>
+      <button onClick={openNewContactForm}>Add Contact</button>
 
       {showForm && (
         <ContactForm
@@ -76,10 +90,10 @@ export default function Home() {
 
       <hr />
 
-      {contacts.length === 0 ? (
-        <p>No contacts yet.</p>
+      {filteredContacts.length === 0 ? (
+        <p>No contacts found.</p>
       ) : (
-        contacts.map((contact) => (
+        filteredContacts.map((contact) => (
           <ContactCard
             key={contact.id}
             contact={contact}
