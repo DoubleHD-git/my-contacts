@@ -1,4 +1,4 @@
-export default function ContactCard({ contact }) {
+export default function ContactCard({contact, onDelete}) {
     return (
         <article>
             <h2>
@@ -17,7 +17,7 @@ export default function ContactCard({ contact }) {
 
             <button>Edit</button>
 
-            <button>Delete</button>
+            <button onClick={() => onDelete(contact.id)}>Delete</button>
 
             <hr />
         </article>
