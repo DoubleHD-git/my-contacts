@@ -11,6 +11,7 @@ export default function Home() {
   const [contacts, setContacts] = useState(initialContacts);
   const [showForm, setShowForm] = useState(false);
 
+  const [editingContact, setEditingContact] = useState(null);
   function addContact(newContact) {
     setContacts([...contacts, newContact]);
     setShowForm(false);
@@ -20,6 +21,10 @@ export default function Home() {
   setContacts(
     contacts.filter((contact) => contact.id !== id)
   );
+}
+function editContact(contact) {
+    setEditingContact(contact);
+    setShowForm(true);
 }
 
   return (
@@ -31,8 +36,7 @@ export default function Home() {
       <br />
 
       <button onClick={() => setShowForm(true)}>Add Contact</button>
-
-      {showForm && <ContactForm onAddContact={addContact} />}
+{showForm && <ContactForm onAddContact={addContact} editingContact={editingContact}/>}
 
       <hr />
 
@@ -40,7 +44,7 @@ export default function Home() {
         <p>No contacts yet.</p>
       ) : (
         contacts.map((contact) => (
-         <ContactCard key={contact.id} contact={contact} onDelete={deleteContact}/>
+         <ContactCard key={contact.id} contact={contact} onDelete={deleteContact} onEdit={editContact}/>
         ))
       )}
     </main>
