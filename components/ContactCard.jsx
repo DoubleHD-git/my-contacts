@@ -1,33 +1,18 @@
-export default function ContactCard({
-    contact,
-    onDelete,
-    onEdit
-}) {
-    return (
-        <article>
-            <h2>
-                {contact.firstName} {contact.lastName}
-            </h2>
+export default function ContactCard({ contact, onDelete, onEdit }) {
+  return (
+    <article className="contact-card">
+      <h2>{contact.firstName} {contact.lastName}</h2>
 
-            <p>Phone: {contact.phone}</p>
+      <p>📞 {contact.phone}</p>
+      <p>📧 {contact.email}</p>
+      <p>👥 {contact.category}</p>
+      <p>❤️ {contact.closeness}</p>
+      <p>📝 {contact.note}</p>
 
-            <p>Email: {contact.email}</p>
-
-            <p>Category: {contact.category}</p>
-
-            <p>Closeness: {contact.closeness}</p>
-
-            <p>Note: {contact.note}</p>
-
-            <button
-    onClick={() => onEdit(contact)}
->
-    Edit
-</button>
-
-            <button onClick={() => onDelete(contact.id)}>Delete</button>
-
-            <hr />
-        </article>
-    );
+      <div className="card-actions">
+        <button className="edit-btn" onClick={() => onEdit(contact)}>Edit</button>
+        <button className="delete-btn" onClick={() => onDelete(contact.id)}>Delete</button>
+      </div>
+    </article>
+  );
 }

@@ -1,6 +1,7 @@
 export default function SearchBar({ searchText, onSearchChange }) {
   return (
     <input
+      className="search-input"
       type="text"
       placeholder="Search contacts..."
       value={searchText}

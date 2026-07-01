@@ -6,8 +6,8 @@ export default function ContactForm({ onAddContact, editingContact }) {
     lastName: "",
     phone: "",
     email: "",
-    category: "",
-    closeness: "",
+    category: "Friends",
+    closeness: "Close",
     note: "",
   };
 
@@ -23,11 +23,7 @@ export default function ContactForm({ onAddContact, editingContact }) {
 
   function handleChange(event) {
     const { name, value } = event.target;
-
-    setFormData({
-      ...formData,
-      [name]: value,
-    });
+    setFormData({ ...formData, [name]: value });
   }
 
   function handleSubmit(event) {
@@ -39,68 +35,36 @@ export default function ContactForm({ onAddContact, editingContact }) {
     };
 
     onAddContact(contact);
-
     setFormData(emptyForm);
   }
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form className="contact-form" onSubmit={handleSubmit}>
       <h2>{editingContact ? "Edit Contact" : "Add New Contact"}</h2>
 
-      <input
-        name="firstName"
-        placeholder="First name"
-        value={formData.firstName}
-        onChange={handleChange}
-      />
+      <input name="firstName" placeholder="First name" value={formData.firstName} onChange={handleChange} />
+      <input name="lastName" placeholder="Last name" value={formData.lastName} onChange={handleChange} />
+      <input name="phone" placeholder="Phone" value={formData.phone} onChange={handleChange} />
+      <input name="email" placeholder="Email" value={formData.email} onChange={handleChange} />
 
-      <input
-        name="lastName"
-        placeholder="Last name"
-        value={formData.lastName}
-        onChange={handleChange}
-      />
+      <select name="category" value={formData.category} onChange={handleChange}>
+        <option>Family</option>
+        <option>Friends</option>
+        <option>Work</option>
+        <option>School</option>
+        <option>Other</option>
+      </select>
 
-      <input
-        name="phone"
-        placeholder="Phone"
-        value={formData.phone}
-        onChange={handleChange}
-      />
+      <select name="closeness" value={formData.closeness} onChange={handleChange}>
+        <option>Very Close</option>
+        <option>Close</option>
+        <option>Acquaintance</option>
+        <option>Professional</option>
+      </select>
 
-      <input
-        name="email"
-        placeholder="Email"
-        value={formData.email}
-        onChange={handleChange}
-      />
+      <textarea name="note" placeholder="Note" value={formData.note} onChange={handleChange} />
 
-      <input
-        name="category"
-        placeholder="Category"
-        value={formData.category}
-        onChange={handleChange}
-      />
-
-      <input
-        name="closeness"
-        placeholder="Closeness"
-        value={formData.closeness}
-        onChange={handleChange}
-      />
-
-      <textarea
-        name="note"
-        placeholder="Note"
-        value={formData.note}
-        onChange={handleChange}
-      />
-
-      <br />
-
-      <button type="submit">
-        {editingContact ? "Update Contact" : "Save Contact"}
-      </button>
+      <button type="submit">{editingContact ? "Update Contact" : "Save Contact"}</button>
     </form>
   );
 }

@@ -56,52 +56,37 @@ export default function Home() {
 
   const filteredContacts = contacts.filter((contact) => {
     const fullName = `${contact.firstName} ${contact.lastName}`.toLowerCase();
-    const phone = contact.phone.toLowerCase();
-    const email = contact.email.toLowerCase();
-    const category = contact.category.toLowerCase();
-    const closeness = contact.closeness.toLowerCase();
     const search = searchText.toLowerCase();
 
     return (
       fullName.includes(search) ||
-      phone.includes(search) ||
-      email.includes(search) ||
-      category.includes(search) ||
-      closeness.includes(search)
+      contact.phone.toLowerCase().includes(search) ||
+      contact.email.toLowerCase().includes(search) ||
+      contact.category.toLowerCase().includes(search) ||
+      contact.closeness.toLowerCase().includes(search)
     );
   });
 
   return (
-    <main>
+    <main className="app-container">
       <Header />
 
-      <SearchBar searchText={searchText} onSearchChange={setSearchText} />
+      <section className="top-actions">
+        <SearchBar searchText={searchText} onSearchChange={setSearchText} />
+        <button className="add-btn" onClick={openNewContactForm}>+ Add Contact</button>
+      </section>
 
-      <br />
+      {showForm && <ContactForm onAddContact={addContact} editingContact={editingContact} />}
 
-      <button onClick={openNewContactForm}>Add Contact</button>
-
-      {showForm && (
-        <ContactForm
-          onAddContact={addContact}
-          editingContact={editingContact}
-        />
-      )}
-
-      <hr />
-
-      {filteredContacts.length === 0 ? (
-        <p>No contacts found.</p>
-      ) : (
-        filteredContacts.map((contact) => (
-          <ContactCard
-            key={contact.id}
-            contact={contact}
-            onDelete={deleteContact}
-            onEdit={editContact}
-          />
-        ))
-      )}
+      <section className="contacts-list">
+        {filteredContacts.length === 0 ? (
+          <p className="empty-message">No contacts found.</p>
+        ) : (
+          filteredContacts.map((contact) => (
+            <ContactCard key={contact.id} contact={contact} onDelete={deleteContact} onEdit={editContact} />
+          ))
+        )}
+      </section>
     </main>
   );
 }
