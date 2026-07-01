@@ -1,31 +1,59 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
+
 import Header from "../components/Header";
 import SearchBar from "../components/SearchBar";
-import ContactCard from "../components/ContactCard";
 import ContactForm from "../components/ContactForm";
-import initialContacts from "../data/contacts";
+import ContactCard from "../components/ContactCard";
+
+import contactsData from "../data/contacts";
 
 export default function Home() {
-  const [contacts, setContacts] = useState(initialContacts);
+  const [contacts, setContacts] = useState([]);
   const [showForm, setShowForm] = useState(false);
-
   const [editingContact, setEditingContact] = useState(null);
-  function addContact(newContact) {
-    setContacts([...contacts, newContact]);
+
+  useEffect(() => {
+    const savedContacts = localStorage.getItem("contacts");
+
+    if (savedContacts) {
+      setContacts(JSON.parse(savedContacts));
+    } else {
+      setContacts(contactsData);
+    }
+  }, []);
+
+  useEffect(() => {
+    localStorage.setItem("contacts", JSON.stringify(contacts));
+  }, [contacts]);
+
+  function addContact(contact) {
+    if (editingContact) {
+      setContacts(
+        contacts.map((c) => (c.id === contact.id ? contact : c))
+      );
+      setEditingContact(null);
+    } else {
+      setContacts([...contacts, contact]);
+    }
+
     setShowForm(false);
   }
-  
+
   function deleteContact(id) {
-  setContacts(
-    contacts.filter((contact) => contact.id !== id)
-  );
-}
-function editContact(contact) {
+    setContacts(contacts.filter((contact) => contact.id !== id));
+  }
+
+  function editContact(contact) {
     setEditingContact(contact);
     setShowForm(true);
-}
+  }
+
+  function openNewContactForm() {
+    setEditingContact(null);
+    setShowForm(true);
+  }
 
   return (
     <main>
@@ -35,8 +63,16 @@ function editContact(contact) {
 
       <br />
 
-      <button onClick={() => setShowForm(true)}>Add Contact</button>
-{showForm && <ContactForm onAddContact={addContact} editingContact={editingContact}/>}
+      <button onClick={openNewContactForm}>
+        Add Contact
+      </button>
+
+      {showForm && (
+        <ContactForm
+          onAddContact={addContact}
+          editingContact={editingContact}
+        />
+      )}
 
       <hr />
 
@@ -44,7 +80,12 @@ function editContact(contact) {
         <p>No contacts yet.</p>
       ) : (
         contacts.map((contact) => (
-         <ContactCard key={contact.id} contact={contact} onDelete={deleteContact} onEdit={editContact}/>
+          <ContactCard
+            key={contact.id}
+            contact={contact}
+            onDelete={deleteContact}
+            onEdit={editContact}
+          />
         ))
       )}
     </main>
