@@ -1,22 +1,29 @@
 import Header from "../components/Header";
 import SearchBar from "../components/SearchBar";
 import ContactCard from "../components/ContactCard";
+import contacts from "../data/contacts";
 
 export default function Home() {
-  return (
-    <main>
-      <Header />
+    return (
+        <main>
 
-      <SearchBar />
+            <Header />
 
-      <br />
-      <br />
+            <SearchBar />
 
-      <button>Add Contact</button>
+            <br />
 
-      <hr />
+            <button>Add Contact</button>
 
-      <ContactCard />
-    </main>
-  );
+            <hr />
+
+            {contacts.map((contact) => (
+                <ContactCard
+                    key={contact.id}
+                    contact={contact}
+                />
+            ))}
+
+        </main>
+    );
 }

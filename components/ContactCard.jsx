@@ -1,16 +1,25 @@
-export default function ContactCard() {
-  return (
-    <article>
-      <h2>David Cohen</h2>
+export default function ContactCard({ contact }) {
+    return (
+        <article>
+            <h2>
+                {contact.firstName} {contact.lastName}
+            </h2>
 
-      <p>Phone: 050-1234567</p>
-      <p>Email: david@example.com</p>
-      <p>Category: Friends</p>
-      <p>Closeness: Close</p>
-      <p>Note: Friend from school</p>
+            <p>Phone: {contact.phone}</p>
 
-      <button>Edit</button>
-      <button>Delete</button>
-    </article>
-  );
+            <p>Email: {contact.email}</p>
+
+            <p>Category: {contact.category}</p>
+
+            <p>Closeness: {contact.closeness}</p>
+
+            <p>Note: {contact.note}</p>
+
+            <button>Edit</button>
+
+            <button>Delete</button>
+
+            <hr />
+        </article>
+    );
 }
